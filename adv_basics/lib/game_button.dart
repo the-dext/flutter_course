@@ -5,12 +5,13 @@ class GameButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FilledButton(
+    return FilledButton.icon(
       onPressed: () {},
-      child: Text(
+      label: Text(
         "Start Quiz",
         style: TextStyle(color: Colors.white, fontSize: 24),
       ),
+      icon: Icon(Icons.arrow_right_alt_outlined, size: 50),
     );
   }
 }

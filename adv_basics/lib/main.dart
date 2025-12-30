@@ -8,6 +8,8 @@ void main() {
         body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
+              begin: AlignmentGeometry.topLeft,
+              end: AlignmentGeometry.bottomRight,
               colors: [
                 Colors.black,
                 Colors.deepPurpleAccent,

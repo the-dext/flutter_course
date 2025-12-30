@@ -11,9 +11,10 @@ class StartScreen extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Opacity(
-            opacity: .2,
-            child: Image.asset('assets/images/quiz-logo.png', width: 200),
+          Image.asset(
+            'assets/images/quiz-logo.png',
+            width: 200,
+            color: const Color.fromARGB(100, 255, 255, 255),
           ),
           Padding(padding: EdgeInsets.only(top: 100)),
           Text(

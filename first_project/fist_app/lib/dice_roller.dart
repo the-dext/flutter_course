@@ -19,7 +19,7 @@ class _DiceRollerState extends State<DiceRoller> {
   int GetNextNum() {
     return rand.nextInt(6) + 1;
   }
-
+//
   // Rolls the dice.
   void rollDice() {
     // print(next);

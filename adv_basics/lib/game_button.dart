@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class GameButton extends StatelessWidget {
-  const GameButton({super.key});
+  const GameButton(this.onClick, {super.key});
+
+  final void Function() onClick;
 
   @override
   Widget build(BuildContext context) {
     return FilledButton.icon(
-      onPressed: () {},
+      onPressed: onClick,
       label: Text(
         "Start Quiz",
         style: TextStyle(color: Colors.white, fontSize: 24),

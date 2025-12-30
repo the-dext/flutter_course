@@ -1,9 +1,10 @@
 import 'package:adv_basics/game_button.dart';
-import 'package:adv_basics/main.dart';
 import 'package:flutter/material.dart';
 
 class StartScreen extends StatelessWidget {
-  const StartScreen({super.key});
+  const StartScreen(this.startQuiz ,{super.key});
+
+  final void Function() startQuiz;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class StartScreen extends StatelessWidget {
             style: TextStyle(color: Colors.white),
           ),
           SizedBox(height: 100),
-          GameButton(),
+          GameButton(startQuiz),
         ],
       ),
     );

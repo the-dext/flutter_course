@@ -19,7 +19,7 @@ class _QuizState extends State<Quiz> {
     // and build uses the active screen variable.
     // causing a switch.
     setState(() {
-      activeScreen = 'quiz-screen';
+      activeScreen = 'questions-screen';
     });
   }
 
@@ -30,6 +30,11 @@ class _QuizState extends State<Quiz> {
 
   @override
   Widget build(BuildContext context) {
+    Widget screenWidget = StartScreen(switchScreen);
+    if (activeScreen == 'questions-screen') {
+      screenWidget = const QuestionsScreen();
+    }
+
     return MaterialApp(
       home: Scaffold(
         body: Container(
@@ -44,9 +49,7 @@ class _QuizState extends State<Quiz> {
               ],
             ),
           ),
-          child: activeScreen == 'start-screen'
-              ? StartScreen(switchScreen)
-              : QuestionsScreen(),
+          child: screenWidget,
         ),
       ),
     );

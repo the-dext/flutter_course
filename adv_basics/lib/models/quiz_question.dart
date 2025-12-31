@@ -1,0 +1,8 @@
+class QuizQuestion {
+  final String text;
+  final List<String> answers;
+
+  // constructor with shortcuts to set the instance text and answers
+  // to the args passed.
+  const QuizQuestion(this.text, this.answers);
+}

@@ -1,3 +1,5 @@
+import 'package:adv_basics/answer_button.dart';
+import 'package:adv_basics/data/questions.dart';
 import 'package:flutter/material.dart';
 
 class QuestionsScreen extends StatefulWidget {
@@ -10,8 +12,27 @@ class QuestionsScreen extends StatefulWidget {
 }
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
+  void onPressed() {}
+
   @override
   Widget build(BuildContext context) {
-    return Text("Hello question");
+    final currentQuestion = questions[0];
+
+    return SizedBox(
+      width: double.infinity,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        spacing: 30,
+        children: [
+          Text(currentQuestion.text),
+          const SizedBox(height: 30),
+
+          AnswerButton(
+            answerText: currentQuestion.answers[0],
+            onPressed: onPressed,
+          ),
+        ],
+      ),
+    );
   }
 }

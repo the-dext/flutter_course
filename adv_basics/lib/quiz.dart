@@ -12,20 +12,19 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
-  Widget? activeScreen;
+  var activeScreen = 'start-screen';
 
   void switchScreen() {
     // set state causes build to run again,
     // and build uses the active screen variable.
     // causing a switch.
     setState(() {
-      activeScreen = Questions();
+      activeScreen = 'quiz-screen';
     });
   }
 
   @override
   void initState() {
-    activeScreen = StartScreen(switchScreen);
     super.initState();
   }
 
@@ -45,7 +44,9 @@ class _QuizState extends State<Quiz> {
               ],
             ),
           ),
-          child: activeScreen,
+          child: activeScreen == 'start-screen'
+              ? StartScreen(switchScreen)
+              : QuestionsScreen(),
         ),
       ),
     );

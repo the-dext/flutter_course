@@ -43,9 +43,9 @@ class _QuizState extends State<Quiz> {
               begin: AlignmentGeometry.topLeft,
               end: AlignmentGeometry.bottomRight,
               colors: [
-                Colors.black,
+                const Color.fromARGB(255, 0, 13, 255),
                 Colors.deepPurpleAccent,
-                Colors.deepPurple,
+                const Color.fromARGB(255, 206, 191, 231),
               ],
             ),
           ),

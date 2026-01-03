@@ -3,7 +3,11 @@ import 'package:adv_basics/questions_summary.dart';
 import 'package:flutter/material.dart';
 
 class QuizResults extends StatelessWidget {
-  const QuizResults({super.key, required this.chosenAnswers});
+  const QuizResults({
+    super.key,
+    required this.chosenAnswers,
+    required this.onRestartQuiz,
+  });
 
   final List<String> chosenAnswers;
 
@@ -19,6 +23,8 @@ class QuizResults extends StatelessWidget {
     }
     return summary;
   }
+
+  final void Function() onRestartQuiz;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +46,12 @@ class QuizResults extends StatelessWidget {
             const SizedBox(height: 30),
             QuestionsSummary(summary),
             const SizedBox(height: 30),
-            TextButton(onPressed: () {}, child: const Text("Restart Quiz")),
+            TextButton(
+              onPressed: () {
+                onRestartQuiz();
+              },
+              child: const Text("Restart Quiz"),
+            ),
           ],
         ),
       ),

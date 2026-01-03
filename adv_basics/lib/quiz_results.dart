@@ -37,34 +37,31 @@ class QuizResults extends StatelessWidget {
 
     return SizedBox(
       width: double.infinity,
-      child: SizedBox(
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text("You scored $numCorrectAnswers out of $numAnswers !"),
-            const SizedBox(height: 30),
-            QuestionsSummary(summary),
-            const SizedBox(height: 30),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text("You scored $numCorrectAnswers out of $numAnswers !"),
+          const SizedBox(height: 30),
+          QuestionsSummary(summary),
+          const SizedBox(height: 30),
 
-            Row(
-              mainAxisAlignment: .center,
-              children: [
-                IconButton(
-                  onPressed: onRestartQuiz,
-                  icon: Icon(Icons.restart_alt_outlined),
-                ),
-                TextButton(
-                  onPressed: () {
-                    onRestartQuiz();
-                  },
-                  child: const Text("Restart Quiz"),
-                ),
-              ],
-            ),
-          ],
-        ),
+          Row(
+            mainAxisAlignment: .center,
+            children: [
+              IconButton(
+                onPressed: onRestartQuiz,
+                icon: Icon(Icons.restart_alt_outlined),
+              ),
+              TextButton(
+                onPressed: () {
+                  onRestartQuiz();
+                },
+                child: const Text("Restart Quiz"),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

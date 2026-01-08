@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
+import 'package:intl/intl.dart';
 
 const uuidGen = Uuid();
 
@@ -12,6 +13,8 @@ const categoryIcons = {
   Category.work: Icons.work,
   Category.bill: Icons.account_balance,
 };
+
+final formatter = DateFormat.yMd();
 
 class Expense {
   final String id;
@@ -29,4 +32,6 @@ class Expense {
     required this.date,
     required this.category,
   }) : id = uuidGen.v4();
+
+  String get formattedDate => formatter.format(date);
 }

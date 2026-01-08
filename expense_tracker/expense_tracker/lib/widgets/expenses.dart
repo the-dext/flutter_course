@@ -59,6 +59,11 @@ class _ExpensesState extends State<Expenses> {
   Widget build(BuildContext context) {
     // return the widget tree here.
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.amber,
+        title: Text("Flutter Expense Tracker"),
+        actions: [IconButton(onPressed: () => {}, icon: Icon(Icons.add))],
+      ),
       body: Column(
         children: [
           Text("the chart"),

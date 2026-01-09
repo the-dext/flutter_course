@@ -22,6 +22,15 @@ class _NewExpenseState extends State<NewExpense> {
     super.dispose();
   }
 
+  void _showDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now().add(Duration(days: -365)),
+      lastDate: DateTime.now(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -33,13 +42,33 @@ class _NewExpenseState extends State<NewExpense> {
             maxLength: 50,
             decoration: InputDecoration(label: Text("Title")),
           ),
-          TextField(
-            controller: _amountController,
-            keyboardType: TextInputType.numberWithOptions(decimal: true),
-            decoration: InputDecoration(
-              label: Text("Amount (£)"),
-              prefixText: "£",
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _amountController,
+                  keyboardType: TextInputType.numberWithOptions(decimal: true),
+                  decoration: InputDecoration(
+                    label: Text("Amount (£)"),
+                    prefixText: "£",
+                  ),
+                ),
+              ),
+              SizedBox(width: 16),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text('Selected Date'),
+                    IconButton(
+                      onPressed: _showDatePicker,
+                      icon: (Icon(Icons.calendar_month)),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
 
           Row(

@@ -12,20 +12,17 @@ class NewExpense extends StatefulWidget {
 
   @override
   State<NewExpense> createState() {
-    return _NewExpenseState(_onSubmitNewExpense);
+    return _NewExpenseState();
   }
 }
 
 class _NewExpenseState extends State<NewExpense> {
-  // text editing controller needs to be DISPOSED!
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? selectedDate;
   Category selectedCategory = Category.leisure;
-  Function(Expense) onSubmit;
 
-  _NewExpenseState(this.onSubmit);
-
+  // text editing controllers needs to be DISPOSED!
   @override
   void dispose() {
     _titleController.dispose();
@@ -82,7 +79,7 @@ class _NewExpenseState extends State<NewExpense> {
       date: selectedDate!,
       category: selectedCategory,
     );
-    onSubmit(newExpense);
+    widget._onSubmitNewExpense(newExpense);
     Navigator.pop(context);
   }
 

@@ -1,14 +1,18 @@
 import 'package:expense_tracker/utils/date_formatter.dart';
-import 'package:expense_tracker/models/expense.dart' as expenses;
-import 'package:flutter/foundation.dart';
+import 'package:expense_tracker/models/expense.dart';
 import 'package:flutter/material.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({super.key});
+  const NewExpense({
+    super.key,
+    required void Function(Expense) onSubmitNewExpense,
+  }) : _onSubmitNewExpense = onSubmitNewExpense;
+
+  final void Function(Expense expense) _onSubmitNewExpense;
 
   @override
   State<NewExpense> createState() {
-    return _NewExpenseState();
+    return _NewExpenseState(_onSubmitNewExpense);
   }
 }
 
@@ -17,7 +21,10 @@ class _NewExpenseState extends State<NewExpense> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? selectedDate;
-  expenses.Category selectedCategory = expenses.Category.leisure;
+  Category selectedCategory = Category.leisure;
+  Function(Expense) onSubmit;
+
+  _NewExpenseState(this.onSubmit);
 
   @override
   void dispose() {
@@ -41,9 +48,11 @@ class _NewExpenseState extends State<NewExpense> {
   }
 
   void saveNewExpense() {
-    bool isTitleInvalid = _titleController.text.trim().isEmpty;
-    bool isAmountInvalid =
-        (double.tryParse(_amountController.text.trim()) ?? 0) <= 0;
+    String title = _titleController.text.trim();
+    double amount = double.tryParse(_amountController.text.trim()) ?? 0;
+
+    bool isTitleInvalid = title.isEmpty;
+    bool isAmountInvalid = amount <= 0;
     bool isDateInvalid = selectedDate == null;
 
     if (isTitleInvalid || isAmountInvalid || isDateInvalid) {
@@ -66,6 +75,15 @@ class _NewExpenseState extends State<NewExpense> {
       );
       return;
     }
+
+    final newExpense = Expense(
+      title: title,
+      amount: amount,
+      date: selectedDate!,
+      category: selectedCategory,
+    );
+    onSubmit(newExpense);
+    Navigator.pop(context);
   }
 
   @override
@@ -115,7 +133,7 @@ class _NewExpenseState extends State<NewExpense> {
           Row(
             children: [
               DropdownButton(
-                items: expenses.Category.values
+                items: Category.values
                     .map(
                       (category) => DropdownMenuItem(
                         value: category,

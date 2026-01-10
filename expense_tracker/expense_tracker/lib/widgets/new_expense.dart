@@ -1,3 +1,6 @@
+import 'package:expense_tracker/utils/date_formatter.dart';
+import 'package:expense_tracker/models/expense.dart' as expenses;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class NewExpense extends StatefulWidget {
@@ -13,6 +16,8 @@ class _NewExpenseState extends State<NewExpense> {
   // text editing controller needs to be DISPOSED!
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  DateTime? selectedDate;
+  expenses.Category selectedCategory = expenses.Category.leisure;
 
   @override
   void dispose() {
@@ -22,13 +27,45 @@ class _NewExpenseState extends State<NewExpense> {
     super.dispose();
   }
 
-  void _showDatePicker() {
-    showDatePicker(
+  void _showDatePicker() async {
+    var newDateValue = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now().add(Duration(days: -365)),
       lastDate: DateTime.now(),
     );
+
+    setState(() {
+      selectedDate = newDateValue;
+    });
+  }
+
+  void saveNewExpense() {
+    bool isTitleInvalid = _titleController.text.trim().isEmpty;
+    bool isAmountInvalid =
+        (double.tryParse(_amountController.text.trim()) ?? 0) <= 0;
+    bool isDateInvalid = selectedDate == null;
+
+    if (isTitleInvalid || isAmountInvalid || isDateInvalid) {
+      showDialog(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text("Invalid input"),
+          content: Text(
+            "Please enter a valid title, amount, date and category",
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("OK"),
+            ),
+          ],
+        ),
+      );
+      return;
+    }
   }
 
   @override
@@ -60,7 +97,11 @@ class _NewExpenseState extends State<NewExpense> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('Selected Date'),
+                    Text(
+                      selectedDate != null
+                          ? formatDate(selectedDate!)
+                          : 'No date selected',
+                    ),
                     IconButton(
                       onPressed: _showDatePicker,
                       icon: (Icon(Icons.calendar_month)),
@@ -70,14 +111,30 @@ class _NewExpenseState extends State<NewExpense> {
               ),
             ],
           ),
-
+          SizedBox(height: 16),
           Row(
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  print(_titleController.text);
-                  print(_amountController.text);
+              DropdownButton(
+                items: expenses.Category.values
+                    .map(
+                      (category) => DropdownMenuItem(
+                        value: category,
+                        child: Text(category.name.toUpperCase()),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (v) {
+                  if (v != null) {
+                    setState(() {
+                      selectedCategory = v;
+                    });
+                  }
                 },
+                value: selectedCategory,
+              ),
+              Spacer(),
+              ElevatedButton(
+                onPressed: saveNewExpense,
                 child: const Text("Save Expense"),
               ),
               TextButton(

@@ -71,13 +71,39 @@ class _ExpensesState extends State<Expenses> {
   }
 
   void onRemoveExpense(Expense expense) {
+    var expenseIndex = _registeredExpenses.indexOf(expense);
+
+    // remove the expense
     setState(() {
       _registeredExpenses.remove(expense);
     });
+
+    // but give user a change to undo
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Expense deleted'),
+        duration: Duration(seconds: 3),
+        action: SnackBarAction(
+          label: "Undo",
+          onPressed: () => setState(() {
+            _registeredExpenses.insert(expenseIndex, expense);
+          }),
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget mainContent = Center(child: Text("No expenses have been added yet"));
+    if (_registeredExpenses.isNotEmpty) {
+      mainContent = ExpensesList(
+        expenses: _registeredExpenses,
+        onRemoveExpense: onRemoveExpense,
+      );
+    }
+
     // return the widget tree here.
     return Scaffold(
       appBar: AppBar(
@@ -90,12 +116,7 @@ class _ExpensesState extends State<Expenses> {
       body: Column(
         children: [
           Text("the chart"),
-          Expanded(
-            child: ExpensesList(
-              expenses: _registeredExpenses,
-              onRemoveExpense: onRemoveExpense,
-            ),
-          ),
+          Expanded(child: mainContent),
         ],
       ),
     );

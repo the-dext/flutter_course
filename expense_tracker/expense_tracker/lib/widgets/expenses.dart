@@ -105,6 +105,13 @@ class _ExpensesState extends State<Expenses> {
       );
     }
 
+    // find out how much screen width there is.
+    // use it to adapt the ui.
+    print('media queries...');
+    print(MediaQuery.of(context).size.width);
+    print(MediaQuery.of(context).size.height);
+    final width = MediaQuery.of(context).size.width;
+
     // return the widget tree here.
     return Scaffold(
       appBar: AppBar(
@@ -114,12 +121,19 @@ class _ExpensesState extends State<Expenses> {
           IconButton(onPressed: _openAddExpenseOverlay, icon: Icon(Icons.add)),
         ],
       ),
-      body: Column(
-        children: [
-          Chart(expenses: _registeredExpenses),
-          Expanded(child: mainContent),
-        ],
-      ),
+      body: width < 600
+          ? Column(
+              children: [
+                Chart(expenses: _registeredExpenses),
+                Expanded(child: mainContent),
+              ],
+            )
+          : Row(
+              children: [
+                Expanded(child: Chart(expenses: _registeredExpenses)),
+                Expanded(child: mainContent),
+              ],
+            ),
     );
   }
 }

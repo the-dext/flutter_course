@@ -23,7 +23,13 @@ void main() {
 
   // locks the app to only portrait up but returns a future, so
   // run app has to be called after that completes.
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then(
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+  // instead allow some specific orientations
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
+  ]).then(
     (onValue) => {
       runApp(
         MaterialApp(

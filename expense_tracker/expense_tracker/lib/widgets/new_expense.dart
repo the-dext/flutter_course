@@ -85,82 +85,99 @@ class _NewExpenseState extends State<NewExpense> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsetsGeometry.fromLTRB(16, 48, 16, 16),
-      child: Column(
-        children: [
-          TextField(
-            controller: _titleController,
-            maxLength: 50,
-            decoration: InputDecoration(label: Text("Title")),
+    final keyboardSpace = MediaQuery.of(context).viewInsets.bottom;
+
+    // add more padding if keyboard shown to make sure
+    // keyboard doesn't cover the content.
+
+    return SizedBox(
+      height: double.infinity,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsetsGeometry.fromLTRB(
+            16,
+            30,
+            16,
+            keyboardSpace.toInt() + 16,
           ),
-          Row(
+          child: Column(
             children: [
-              Expanded(
-                child: TextField(
-                  controller: _amountController,
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  decoration: InputDecoration(
-                    label: Text("Amount (£)"),
-                    prefixText: "£",
-                  ),
-                ),
+              TextField(
+                controller: _titleController,
+                maxLength: 50,
+                decoration: InputDecoration(label: Text("Title")),
               ),
-              SizedBox(width: 16),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      selectedDate != null
-                          ? formatDate(selectedDate!)
-                          : 'No date selected',
-                    ),
-                    IconButton(
-                      onPressed: _showDatePicker,
-                      icon: (Icon(Icons.calendar_month)),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 16),
-          Row(
-            children: [
-              DropdownButton(
-                items: Category.values
-                    .map(
-                      (category) => DropdownMenuItem(
-                        value: category,
-                        child: Text(category.name.toUpperCase()),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _amountController,
+                      keyboardType: TextInputType.numberWithOptions(
+                        decimal: true,
                       ),
-                    )
-                    .toList(),
-                onChanged: (v) {
-                  if (v != null) {
-                    setState(() {
-                      selectedCategory = v;
-                    });
-                  }
-                },
-                value: selectedCategory,
+                      decoration: InputDecoration(
+                        label: Text("Amount (£)"),
+                        prefixText: "£",
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          selectedDate != null
+                              ? formatDate(selectedDate!)
+                              : 'No date selected',
+                        ),
+                        IconButton(
+                          onPressed: _showDatePicker,
+                          icon: (Icon(Icons.calendar_month)),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              Spacer(),
-              ElevatedButton(
-                onPressed: saveNewExpense,
-                child: const Text("Save Expense"),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text("Cancel"),
+              SizedBox(height: 16),
+              Row(
+                children: [
+                  DropdownButton(
+                    items: Category.values
+                        .map(
+                          (category) => DropdownMenuItem(
+                            value: category,
+                            child: Text(category.name.toUpperCase()),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (v) {
+                      if (v != null) {
+                        setState(() {
+                          selectedCategory = v;
+                        });
+                      }
+                    },
+                    value: selectedCategory,
+                  ),
+                  Spacer(),
+                  ElevatedButton(
+                    onPressed: saveNewExpense,
+                    child: const Text("Save Expense"),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text("Cancel"),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
